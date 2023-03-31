@@ -2,7 +2,7 @@ import React from 'react';
 import './Data.css' 
 import { useState, useEffect } from 'react';
 import axios from 'axios'
-import { NavLink } from 'react-router-dom';
+import { Post } from '../../Components';
 
 const Data = () => {
    const [posts, setPosts] = useState([])
@@ -18,10 +18,7 @@ const Data = () => {
    
 
  return(
- <>
-     
-    
-
+ <div>
      {posts.map(post => 
        <div key={post._id} className='post-container'> 
         <div className='img-container'>
@@ -31,10 +28,11 @@ const Data = () => {
         <h1 className='post-userName'>{post.user.userName}</h1>
         <p className='post-body'>{post.body}</p>
        </div>
-       </div>
-     
+       </div>    
      )}
- </>
+     
+     <Post/>
+ </div>
  )
 }
 
