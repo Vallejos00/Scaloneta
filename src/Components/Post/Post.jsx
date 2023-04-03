@@ -1,8 +1,23 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 
 const Post = () => {
  return(
- <div><textarea name="" id="" cols="30" rows="10">¿Qué estás pensando?</textarea></div>
+ <div>
+   <Form>
+   <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+               <Form.Label>¿Qué estás pensando?</Form.Label>
+              <Form.Control as="textarea" rows={3} />
+            </Form.Group>
+   </Form>
+
+
+ </div>
  )
 }
 

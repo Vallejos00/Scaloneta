@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Data } from '../Data';
 import { useNavigate } from 'react-router-dom';
@@ -8,17 +8,19 @@ const Home = () => {
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
     const [err, setErr] = useState('')
+    const [token, setToken] = useState('')
     const navigate = useNavigate()
 
-
-   const handleForm = () =>{
-    
+    const handleForm = () =>{    
     axios.post('http://localhost:3030/api/users/login', {userName: user, password: password })
     .then( res => {
         if(res.status==200){
-            const token = res.data.token 
+            const token = res.data.token
+            const user = res.data.user 
+            console.log(user);
             navigate('/inicio')
             localStorage.setItem('token', token)
+
         }
     })
     .catch(res => {
@@ -27,6 +29,8 @@ const Home = () => {
     }})
     
 }
+
+    
 
  return(
  <div>
@@ -44,6 +48,7 @@ const Home = () => {
         <button type='submit'>Ingresar</button>
     {err ? <p>{err}</p> : null}
  </form>
+ <p>{token}</p>
  
  
  </div>
