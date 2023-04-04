@@ -1,7 +1,5 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-
-import { Data } from '../Data';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -24,12 +22,10 @@ const Home = () => {
     .catch(res => {
         if(res.status !==200){
         setErr(res.response.data.message);
-    }})
-    
+    }})   
 }
 
     
-
  return(
  <div>
 
@@ -45,9 +41,7 @@ const Home = () => {
     </label>
         <button type='submit'>Ingresar</button>
     {err ? <p>{err}</p> : null}
- </form>
- <p>{token}</p>
- 
+ </form> 
  
  </div>
  )

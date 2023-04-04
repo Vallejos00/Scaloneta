@@ -12,21 +12,19 @@ const Data = (props) => {
 
    const [posts, setPosts] = useState([])
    const [show, setShow] = useState(false);
-   const [nopublic, setNopublic] = useState(false)
    const [user, setUser] = useState('')
+   const [alert, setAlert] = useState(false)
    const navigate = useNavigate()
 
-  const handleClose = () => {setShow(false), setNopublic(false)}
-  const handleShow = () => {
-    if(!user){
-      setNopublic(true)
-    } else {
-      setShow(true)
-    }
+  const handleClose = () =>  {setShow(false), setAlert(false)}
+  const handleShow = () =>   setShow(true)
+
+  const logout = () => {
+    localStorage.removeItem("user")
+    navigate('/')
   }
 
-   useEffect(() => {
-   
+   useEffect(() => {   
     const getPosts = async () =>{
     const response = await axios.get('http://localhost:3030/api/posts')       
     const data = response.data
@@ -36,40 +34,61 @@ const Data = (props) => {
      }if(a.createdAt < b.createdAt){
       return 1
      }
-    } )
+    })
     setPosts(response.data)
     }
     getPosts()
-    setUser(localStorage.getItem("user"))
+    setUser(localStorage.getItem("user"))  
+    
   }, [posts])
+  
+
+  useEffect(()=>{
+    if(!user)setAlert(true) 
+  }, [user])
+  
+
 
  return(
  <div>
-      <Button variant="outline-info" onClick={handleShow} className="publicar-btn">Publicar</Button>
-
-      <Modal show={nopublic} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Ups! No estás logeado</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Tenés que iniciar sesión para realizar una publicación</Modal.Body>
-        <Modal.Footer>
+  <div className='btn-container'>
+      { user ?
         <Button variant="outline-danger"
-        onClick={handleClose}>Cerrar
+        onClick={logout}>Cerrar sesión
         </Button>
-          <Button variant="outline-info" onClick={() => {navigate('/')}}>Iniciar sesión
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-
-
+         : null
+      }
+      
+    <Button variant="outline-info" onClick={user ? handleShow : logout} >{user ? "Publicar" : "iniciar sesión"}</Button>
+  </div>
+     
+          { user ?
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-              <Post close={handleClose}/>
+          <Post close={handleClose}/>
         </Modal.Body>
       </Modal>
+          : 
+          <Modal show= {alert} onHide={handleClose}>
+   <Modal.Header closeButton>
+     <Modal.Title>Ups! tu sesión expiró</Modal.Title>
+   </Modal.Header>
+   <Modal.Body>Para poder realizar publicaciones, por favor, volvé a loguearte</Modal.Body>
+   <Modal.Footer>
+   <Button variant="outline-danger"
+        onClick={handleClose}>Cerrar
+        </Button>
+        <Button variant="outline-info"
+        onClick={logout}>Iniciar sesión
+        </Button>
+   </Modal.Footer>
+ </Modal>
+          }             
+     
+      
+
      {posts.map(post => 
        <div key={post._id} className='post-container'> 
         <div className='img-container'>
@@ -81,8 +100,7 @@ const Data = (props) => {
        </div>
        </div>    
      )}
-     
-     
+          
  </div>
  )
 }

@@ -7,39 +7,48 @@ import axios from 'axios';
 
 
 const Post = (props) => {
-
+  
   const [token, setToken] = useState('')
   const [post, setPost] = useState('')
   const [id, setId] = useState('')
-  const [finish, setFinish] = useState(false)
+  const [alert, setAlert] = useState(false);
+  const [user, setUser] = useState('')
+
+  const handleClose = () => setAlert(false);
+  const handleShow = () => setAlert(true);
+
 
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem('user'))
+    setUser(user)
     setId(user.id)
     setToken(user.token)
-  },[])
+  },[token])
 
   
   
   const handleForm = () => {
-
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }
-    
+    }  
     axios.post('http://localhost:3030/api/posts', {body: post, author: id}, config)
-    .then( res => setFinish(true))
-    .catch(res => console.log(res))
-    
-  }
+    .then( res => console.log(res))
+    .catch(res => {
+      if(res.response.data.status == 401){
+      setAlert(true)
+      localStorage.removeItem("user")
+    } else {
+      console.log(res);
+    }})   
+   }
   
 
  return(
  <div>
 
-<Form onSubmit={(e)=>{
+  <Form onSubmit={(e)=>{
     e.preventDefault()
     handleForm() }}>
    <Form.Group
@@ -56,7 +65,11 @@ const Post = (props) => {
    </Form.Group>
             <Button type='submit' variant="outline-info" onClick={props.close}>Publicar
           </Button>
-   </Form>
+   </Form>  
+
+
+
+
  </div>
  )
 }
