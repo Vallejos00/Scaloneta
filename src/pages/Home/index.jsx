@@ -15,12 +15,10 @@ const Home = () => {
     axios.post('http://localhost:3030/api/users/login', {userName: user, password: password })
     .then( res => {
         if(res.status==200){
-            const token = res.data.token
             const user = res.data.user 
-            console.log(user);
+            console.log(JSON.stringify(user));
             navigate('/inicio')
-            localStorage.setItem('token', token)
-
+            localStorage.setItem('user', JSON.stringify(user))
         }
     })
     .catch(res => {

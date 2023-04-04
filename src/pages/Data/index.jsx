@@ -3,21 +3,30 @@ import './Data.css'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { Post } from '../../Components';
 
 
-const Data = () => {
+const Data = (props) => {
+
    const [posts, setPosts] = useState([])
    const [show, setShow] = useState(false);
-   const [token, setToken] = useState('')
-  const handleClose = () => setShow(false);
+   const [nopublic, setNopublic] = useState(false)
+   const [user, setUser] = useState('')
+   const navigate = useNavigate()
+
+  const handleClose = () => {setShow(false), setNopublic(false)}
   const handleShow = () => {
-    setShow(true)
+    if(!user){
+      setNopublic(true)
+    } else {
+      setShow(true)
+    }
   }
 
    useEffect(() => {
+   
     const getPosts = async () =>{
     const response = await axios.get('http://localhost:3030/api/posts')       
     const data = response.data
@@ -31,32 +40,35 @@ const Data = () => {
     setPosts(response.data)
     }
     getPosts()
-    setToken(localStorage.getItem("token"))
-  }, [])
+    setUser(localStorage.getItem("user"))
+  }, [posts])
 
  return(
  <div>
       <Button variant="outline-info" onClick={handleShow} className="publicar-btn">Publicar</Button>
+
+      <Modal show={nopublic} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Ups! No estás logeado</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Tenés que iniciar sesión para realizar una publicación</Modal.Body>
+        <Modal.Footer>
+        <Button variant="outline-danger"
+        onClick={handleClose}>Cerrar
+        </Button>
+          <Button variant="outline-info" onClick={() => {navigate('/')}}>Iniciar sesión
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Post/>
-            </Form.Group>
-          </Form>
+              <Post close={handleClose}/>
         </Modal.Body>
-        <Modal.Footer>
-        <Button variant="outline-danger"
-        onClick={handleClose}>Cerrar
-        </Button>        
-          <Button variant="outline-info" onClick={handleClose}>Publicar
-          </Button>
-        </Modal.Footer>
       </Modal>
      {posts.map(post => 
        <div key={post._id} className='post-container'> 
@@ -69,7 +81,6 @@ const Data = () => {
        </div>
        </div>    
      )}
-     <p>{token}</p>
      
      
  </div>
