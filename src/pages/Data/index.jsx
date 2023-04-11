@@ -3,15 +3,17 @@ import './Data.css'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 import Button from 'react-bootstrap/Button';
+import Collapse from 'react-bootstrap/Collapse';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
-import { Post } from '../../Components';
+import { Post, Search } from '../../Components';
 
 
 const Data = (props) => {
 
    const [posts, setPosts] = useState([])
    const [show, setShow] = useState(false);
+   const [open, setOpen] = useState(false);
    const [user, setUser] = useState('')
    const [alert, setAlert] = useState(false)
    const navigate = useNavigate()
@@ -51,6 +53,11 @@ const Data = (props) => {
 
  return(
  <div>
+
+   
+
+
+ 
   <div className='btn-container'>
       { user ?
         <Button variant="outline-danger"
@@ -58,6 +65,20 @@ const Data = (props) => {
         </Button>
          : null
       }
+
+<Button
+        onClick={() => setOpen(!open)}
+        aria-controls="example-collapse-text"
+        aria-expanded={open}
+        variant="outline-secondary"
+      >
+        Buscar
+      </Button>
+      <Collapse in={open}>
+        <div id="example-collapse-text">
+        <Search/>
+        </div>
+      </Collapse>
       
     <Button variant="outline-info" onClick={user ? handleShow : logout} >{user ? "Publicar" : "iniciar sesión"}</Button>
   </div>
