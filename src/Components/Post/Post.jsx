@@ -11,11 +11,9 @@ const Post = (props) => {
   const [token, setToken] = useState('')
   const [post, setPost] = useState('')
   const [id, setId] = useState('')
-  const [alert, setAlert] = useState(false);
   const [user, setUser] = useState('')
 
-  const handleClose = () => setAlert(false);
-  const handleShow = () => setAlert(true);
+
 
 
   useEffect(()=>{
@@ -37,7 +35,6 @@ const Post = (props) => {
     .then( res => console.log(res))
     .catch(res => {
       if(res.response.data.status == 401){
-      setAlert(true)
       localStorage.removeItem("user")
     } else {
       console.log(res);
@@ -63,7 +60,7 @@ const Post = (props) => {
                  onChange={(e)=> setPost(e.target.value)} />
               <Form.Control type='hidden' disabled='on' value={id}/>
    </Form.Group>
-            <Button type='submit' variant="outline-info" onClick={props.close}>Publicar
+            <Button type='submit' variant="outline-info" onClick={props.refresh}>Publicar
           </Button>
    </Form>  
 

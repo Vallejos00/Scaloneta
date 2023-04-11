@@ -4,7 +4,14 @@ import './Header.css'
 const Header = () => {
  return(
  <>
- <h1>SCALONETA</h1>
+ 
+ <header className="header-container">
+    
+    <img src="/images/logobreakingarg.png" alt="logo" className="logo" />
+        
+    </header>
+
+
  </>
  )
 }

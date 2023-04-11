@@ -14,7 +14,6 @@ const Home = () => {
     .then( res => {
         if(res.status==200){
             const user = res.data.user 
-            console.log(JSON.stringify(user));
             navigate('/inicio')
             localStorage.setItem('user', JSON.stringify(user))
         }

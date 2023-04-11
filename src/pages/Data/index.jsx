@@ -4,61 +4,89 @@ import { useState, useEffect } from 'react';
 import axios from 'axios'
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { Post, Search } from '../../Components';
+import { json } from 'react-router-dom';
 
 
 const Data = (props) => {
 
-   const [posts, setPosts] = useState([])
-   const [show, setShow] = useState(false);
-   const [open, setOpen] = useState(false);
-   const [user, setUser] = useState('')
-   const [alert, setAlert] = useState(false)
-   const navigate = useNavigate()
+  const [posts, setPosts] = useState([])
+  const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [user, setUser] = useState('')
+  const [alert, setAlert] = useState(false)
+  const [refresh, setRefresh] = useState(0)
+  const navigate = useNavigate()
 
-  const handleClose = () =>  {setShow(false), setAlert(false)}
-  const handleShow = () =>   setShow(true)
-
-  const logout = () => {
-    localStorage.removeItem("user")
-    navigate('/')
+ const handleClose = () =>  {setShow(false), setAlert(false)}
+ const handleShow = () =>   setShow(true)
+ const handleRefresh = () => {
+  setRefresh(refresh + 1)
+  if(refresh == 5){
+    setRefresh(0)
   }
+  console.log(refresh);
+  setShow(false)  
+ } 
 
-   useEffect(() => {   
-    const getPosts = async () =>{
-    const response = await axios.get('http://localhost:3030/api/posts')       
-    const data = response.data
-    data.sort( (a, b) => {
-     if(a.createdAt > b.createdAt){
-      return -1
-     }if(a.createdAt < b.createdAt){
-      return 1
-     }
-    })
-    setPosts(response.data)
+ const logout = () => {
+   localStorage.removeItem("user")
+   navigate('/')
+ }
+
+  useEffect(() => {   
+   const getPosts = async () =>{
+   const response = await axios.get('http://localhost:3030/api/posts')       
+   const data = response.data
+   data.sort( (a, b) => {
+    if(a.createdAt > b.createdAt){
+     return -1
+    }if(a.createdAt < b.createdAt){
+     return 1
     }
-    getPosts()
-    setUser(localStorage.getItem("user"))  
-    
-  }, [posts])
-  
+   })
+   setPosts(response.data)
+   }
+   getPosts()
+   setUser(localStorage.getItem("user")) 
+   console.log("hola");
+   if(!user)setAlert(true) 
+   
+ }, [refresh])
+ 
 
-  useEffect(()=>{
-    if(!user)setAlert(true) 
-  }, [user])
-  
+
+
+
+
 
 
  return(
  <div>
 
-   
+{/* <Button variant="primary" onClick={handleShowAside}>
+        Launch
+      </Button>
+
+      <Offcanvas show={showAside} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>{userName ? userName.userName : "BreakingArg"}</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          Some text as placeholder. In real life you can have the elements you
+          have chosen. Like, text, images, lists, etc.
+        </Offcanvas.Body>
+      </Offcanvas> */}
+
+
+
+
 
 
  
-  <div className='btn-container'>
       { user ?
         <Button variant="outline-danger"
         onClick={logout}>Cerrar sesión
@@ -80,7 +108,8 @@ const Data = (props) => {
         </div>
       </Collapse>
       
-    <Button variant="outline-info" onClick={user ? handleShow : logout} >{user ? "Publicar" : "iniciar sesión"}</Button>
+  <div className='btn-publicar'>
+    <Button variant="success" onClick={user ? handleShow : logout} >{user ? "Publicar" : "iniciar sesión"}</Button>
   </div>
      
           { user ?
@@ -88,7 +117,7 @@ const Data = (props) => {
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-          <Post close={handleClose}/>
+          <Post close={handleClose} refresh={handleRefresh}/>
         </Modal.Body>
       </Modal>
           : 
@@ -101,7 +130,7 @@ const Data = (props) => {
    <Button variant="outline-danger"
         onClick={handleClose}>Cerrar
         </Button>
-        <Button variant="outline-info"
+        <Button variant="success"
         onClick={logout}>Iniciar sesión
         </Button>
    </Modal.Footer>

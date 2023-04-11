@@ -53,7 +53,7 @@ const navigate = useNavigate()
         disabled={dropdown ? false : true}
         placeholder={dropdown ? `Buscar ${dropdown}` : "Seleccione un valor" } 
         onChange={(e) => setSearch(e.target.value)}/>
-        <Button type='submit' variant="outline-info" onClick={() => {handleSearch()}}>Buscar
+        <Button type='submit' variant="success" onClick={() => {handleSearch()}}>Buscar
           </Button>
       </InputGroup>
 

@@ -19,8 +19,8 @@
     font-size: 1.5rem;
 }
 
-.btn-container{
+.btn-publicar{
    display: flex;
-   justify-content: space-between;
+   float:right;
    margin-right: 10rem
 }
