@@ -15,8 +15,7 @@ const [search, setSearch] = useState("x")
 const navigate = useNavigate()
 
     const handleSearch = async () => {
-    if (dropdown == "Usuarios"){          
-    console.log(dropdown);   
+    if (dropdown == "Usuarios"){           
     const response = await axios.get(`http://localhost:3030/api/users/${search}`)
     const data = response.data
     console.log(data);

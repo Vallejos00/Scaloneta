@@ -19,8 +19,19 @@
     font-size: 1.5rem;
 }
 
-.btn-publicar{
+.btn-container{
    display: flex;
-   float:right;
-   margin-right: 10rem
+   justify-content: space-between;
+   margin-right: 10rem;
+
 }
+
+.btn-list{
+    display: flex;
+    flex-direction: column;    
+}
+
+.list-item{
+ width: 45%;
+}
+

@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 const Perfil = () => {
 
 const { state } = useLocation()
-console.log(state.userData);
+console.log(state);
 
  return(
  <div>

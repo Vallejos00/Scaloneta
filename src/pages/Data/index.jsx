@@ -8,21 +8,23 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { Post, Search } from '../../Components';
-import { json } from 'react-router-dom';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 
 const Data = (props) => {
 
   const [posts, setPosts] = useState([])
   const [show, setShow] = useState(false);
+  const [showAside, setShowAside] = useState(false);
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState('')
   const [alert, setAlert] = useState(false)
   const [refresh, setRefresh] = useState(0)
   const navigate = useNavigate()
 
- const handleClose = () =>  {setShow(false), setAlert(false)}
+ const handleClose = () =>  {setShow(false), setAlert(false), setShowAside(false)}
  const handleShow = () =>   setShow(true)
+ const handleShowAside = () => setShowAside(true)
  const handleRefresh = () => {
   setRefresh(refresh + 1)
   if(refresh == 5){
@@ -48,12 +50,11 @@ const Data = (props) => {
      return 1
     }
    })
-   setPosts(response.data)
+   setPosts(data)
    }
    getPosts()
-   setUser(localStorage.getItem("user")) 
-   console.log("hola");
-   if(!user)setAlert(true) 
+   setUser(JSON.parse(localStorage.getItem("user")))
+   if(!user)setAlert(true)
    
  }, [refresh])
  
@@ -65,41 +66,27 @@ const Data = (props) => {
 
 
  return(
- <div>
+   <div>
 
-{/* <Button variant="primary" onClick={handleShowAside}>
-        Launch
+   <div className='btn-container'>
+<Button variant="success" onClick={handleShowAside}>
+        |||
       </Button>
 
       <Offcanvas show={showAside} onHide={handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>{userName ? userName.userName : "BreakingArg"}</Offcanvas.Title>
+          <Offcanvas.Title>{user ? user.userName : "BreakingArg"}
+          
+          </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
-        </Offcanvas.Body>
-      </Offcanvas> */}
-
-
-
-
-
-
- 
-      { user ?
-        <Button variant="outline-danger"
-        onClick={logout}>Cerrar sesión
-        </Button>
-         : null
-      }
-
-<Button
+   <div className='btn-list'>
+       <Button
+        className='list-item'
         onClick={() => setOpen(!open)}
         aria-controls="example-collapse-text"
         aria-expanded={open}
-        variant="outline-secondary"
-      >
+        variant="outline-secondary">
         Buscar
       </Button>
       <Collapse in={open}>
@@ -107,8 +94,29 @@ const Data = (props) => {
         <Search/>
         </div>
       </Collapse>
+
+      { user ?
+        <div className='btn-list'>
+          <Button 
+            className='list-item' 
+            variant="outline-secondary"
+            onClick={()=>{navigate('/miperfil', {state: {userData: user}})}}>     
+            Mi Perfil</Button>
+            <Button 
+            className='list-item' 
+            variant="outline-danger"
+            onClick={logout}>
+            Cerrar sesión</Button>
+        </div>
       
-  <div className='btn-publicar'>
+         : null
+      }
+      </div>
+        
+        </Offcanvas.Body>
+      </Offcanvas>
+
+      
     <Button variant="success" onClick={user ? handleShow : logout} >{user ? "Publicar" : "iniciar sesión"}</Button>
   </div>
      

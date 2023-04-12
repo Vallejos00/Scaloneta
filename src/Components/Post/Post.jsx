@@ -22,9 +22,7 @@ const Post = (props) => {
     setId(user.id)
     setToken(user.token)
   },[token])
-
-  
-  
+ 
   const handleForm = () => {
     const config = {
       headers: {
@@ -35,6 +33,7 @@ const Post = (props) => {
     .then( res => console.log(res))
     .catch(res => {
       if(res.response.data.status == 401){
+      props.refresh()
       localStorage.removeItem("user")
     } else {
       console.log(res);
@@ -60,7 +59,7 @@ const Post = (props) => {
                  onChange={(e)=> setPost(e.target.value)} />
               <Form.Control type='hidden' disabled='on' value={id}/>
    </Form.Group>
-            <Button type='submit' variant="outline-info" onClick={props.refresh}>Publicar
+            <Button type='submit' variant="success" onClick={props.refresh}>Publicar
           </Button>
    </Form>  
 
