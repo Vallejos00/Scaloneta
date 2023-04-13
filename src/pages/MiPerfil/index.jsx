@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const MiPerfil = () => {
     const [token, setToken] = useState('')
+    const [user, setUser] = useState({})    
   
     useEffect(()=>{  
     const local = JSON.parse(localStorage.getItem("user"))
@@ -14,20 +15,19 @@ const MiPerfil = () => {
      headers: {
      Authorization: `Bearer ${token}`
      }}
-     const getUserData = async () => {
-     const response = await axios.get("http://localhost:3030/api/users/myprofile", config)
-     console.log(response.data);
-     }
-     getUserData()
-
-
-    })
+     
+        axios.get('http://localhost:3030/api/users/myprofile', config)
+        .then(res=> {setUser(res.data)
+            console.log(user);
+        })
+}, [])
 
 
  return(
  <div>
-   
 
+
+ 
 
 
 

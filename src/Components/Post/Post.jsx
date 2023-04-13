@@ -11,17 +11,17 @@ const Post = (props) => {
   const [token, setToken] = useState('')
   const [post, setPost] = useState('')
   const [id, setId] = useState('')
-  const [user, setUser] = useState('')
+ 
 
 
 
 
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem('user'))
-    setUser(user)
     setId(user.id)
     setToken(user.token)
   },[token])
+  
  
   const handleForm = () => {
     const config = {
@@ -30,7 +30,6 @@ const Post = (props) => {
       }
     }  
     axios.post('http://localhost:3030/api/posts', {body: post, author: id}, config)
-    .then( res => console.log(res))
     .catch(res => {
       if(res.response.data.status == 401){
       props.refresh()
@@ -39,6 +38,12 @@ const Post = (props) => {
       console.log(res);
     }})   
    }
+
+  
+
+
+
+  
   
 
  return(
@@ -56,7 +61,8 @@ const Post = (props) => {
                  as="textarea"
                  rows={3}
                  name='post'  
-                 onChange={(e)=> setPost(e.target.value)} />
+                 required
+                 onChange={(e)=> setPost(e.target.value)}/>
               <Form.Control type='hidden' disabled='on' value={id}/>
    </Form.Group>
             <Button type='submit' variant="success" onClick={props.refresh}>Publicar

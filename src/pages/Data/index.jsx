@@ -5,6 +5,7 @@ import axios from 'axios'
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { Post, Search } from '../../Components';
@@ -30,8 +31,7 @@ const Data = (props) => {
   if(refresh == 5){
     setRefresh(0)
   }
-  console.log(refresh);
-  setShow(false)  
+    setShow(false)  
  } 
 
  const logout = () => {
@@ -51,12 +51,13 @@ const Data = (props) => {
     }
    })
    setPosts(data)
-   }
-   getPosts()
-   setUser(JSON.parse(localStorage.getItem("user")))
-   if(!user)setAlert(true)
-   
- }, [refresh])
+  }
+  getPosts()
+  setUser(JSON.parse(localStorage.getItem("user")))
+  if(!user)setAlert(true)
+  
+}, [refresh])
+
  
 
 
@@ -125,7 +126,9 @@ const Data = (props) => {
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-          <Post close={handleClose} refresh={handleRefresh}/>
+          <Post refresh={handleRefresh}/>
+
+           
         </Modal.Body>
       </Modal>
           : 
@@ -145,8 +148,6 @@ const Data = (props) => {
  </Modal>
           }             
      
-      
-
      {posts.map(post => 
        <div key={post._id} className='post-container'> 
         <div className='img-container'>
