@@ -5,11 +5,10 @@ import axios from 'axios'
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { Post, Search } from '../../Components';
-import ListGroup from 'react-bootstrap/ListGroup';
+
 
 
 const Data = (props) => {
@@ -41,7 +40,7 @@ const Data = (props) => {
 
   useEffect(() => {   
    const getPosts = async () =>{
-   const response = await axios.get('http://localhost:3030/api/posts')       
+   const response = await axios.get('http://localhost:3030/api/posts')   
    const data = response.data
    data.sort( (a, b) => {
     if(a.createdAt > b.createdAt){
