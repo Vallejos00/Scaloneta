@@ -1,11 +1,11 @@
-.back-btn{
+.p-back-btn{
     height: 5vh;
     background-color: #144F3C;
     border: 0;
     border-radius: 2px;
 }
 
-.profilepic{
+.p-profilepic{
     width: 20rem;
     height: auto;
     clip-path: circle(30% at 50% 50%);
@@ -15,30 +15,32 @@
     
 }
 
-.profilepic:hover{
+.p-profilepic:hover{
     cursor:pointer
 }
 
-.profile-container{
+.p-profile-container{
     display: flex;
+    flex-direction: row;
     margin-right: 6rem;
     justify-content: space-between;
 }
 
 
-.user-section{
+.p-user-section{
+
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.post-section{
+.p-post-section{
     display: flex;
     flex-direction: column;
    
 }
 
-.post-conteiner{
+.p-post-conteiner{
     display: flex;
     border-top: 0.5px solid rgb(187, 183, 183);
     padding: 1rem;
@@ -46,29 +48,29 @@
     justify-content: space-between;
 }
 
-.post-btn{
+.p-post-btn{
     padding: 0.2rem;
     background-color: rgb(245, 37, 37);
     border: 0;
     border-radius: 2px;
 }
 
-.delete{
+.p-delete{
     width: 20px;
 }
 
-.btn-container{
+.p-btn-container{
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-.username{
+.p-username{
     margin: 0;
     padding: 0;
 }
 
-.email{
+.p-email{
     margin: 0;
     padding: 0;
 }

@@ -95,7 +95,7 @@ const MiPerfil = () => {
   
   :
 
-<div className='profile-conteiner'>
+<div className='profile-container'>
     <button className='back-btn'
     onClick={() => {navigate('/inicio')}}>
         <img src="/images/icons8-back-24.png" alt="" />
