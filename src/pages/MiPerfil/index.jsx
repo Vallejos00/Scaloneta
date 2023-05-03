@@ -45,13 +45,14 @@ const MiPerfil = () => {
                     setUser(response.data)
                     console.log(response);
                 } catch(err) {
+                  console.log(err);
                     localStorage.removeItem('user')
                     navigate('/inicio')
                 } 
             }   
             const getPosts = async () =>{
                 try{
-                    const response = await axios.get('http://localhost:3030/api/posts/myposts', config)   
+                    const response = await axios.get('http://localhost:3030/api/posts/myposts/data', config)   
                     const data = response.data
                     data.sort( (a, b) => {
                  if(a.createdAt > b.createdAt){
