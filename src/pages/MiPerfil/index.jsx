@@ -83,6 +83,7 @@ const MiPerfil = () => {
     try{
         const response = await axios.delete(`http://localhost:3030/api/posts/myposts/${id}`, config)
         console.log(response);
+        handleRefresh()
     } catch(err){
         console.log(err);
     }

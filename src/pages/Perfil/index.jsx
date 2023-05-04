@@ -9,19 +9,20 @@ const Perfil = () => {
 
 const [msg, setMsg] = useState('')    
 const { state } = useLocation()
-const id = state.userData[0].id
-const navigate = useNavigate()
 const [show, setShow] = useState(false);
 const [posts, setPosts] = useState([])
+const navigate = useNavigate()
 
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 
 useEffect(()=>{
-    if (state == null) navigate('/404notFoundPage')
-    const getPosts = async() => {
+    if (state == null) {
+        navigate('/404notFoundPage')
+    }else{
+       const getPosts = async() => {
        try{
-        const response = await axios.get(`http://localhost:3030/api/posts/profile/${id}`)
+        const response = await axios.get(`http://localhost:3030/api/posts/profile/${state.userData[0].id}`)
         const data = response.data
         data.sort( (a, b) => {
          if(a.createdAt > b.createdAt){
@@ -39,6 +40,8 @@ useEffect(()=>{
        
     }
     getPosts()
+    }
+ 
 }, [])
 
 

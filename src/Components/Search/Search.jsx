@@ -6,25 +6,38 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
+import Alert from 'react-bootstrap/Alert';
 
 
 const Search = () => {
 
+const [show, setShow] = useState(false);
 const [dropdown, setDropdown] = useState("")
 const [search, setSearch] = useState("x")
 const navigate = useNavigate()
 
     const handleSearch = async () => {
-    if (dropdown == "Usuarios"){           
-    const response = await axios.get(`http://localhost:3030/api/users/${search}`)
-    const data = response.data
-    console.log(data);
-    navigate('/perfil', {state: {userData: data}})
+    if (dropdown == "Usuarios"){  
+      try{
+      const response = await axios.get(`http://localhost:3030/api/users/${search}`)
+      const data = response.data
+      navigate('/perfil', {state: {userData: data}})
+      } catch(err){
+      setShow(true)
+      }        
+    
     }
 
     if (dropdown == "Posteos"){
-    const response = await axios.get(`http://localhost:3030/api/posts/${search}`)
-    console.log(response);
+      try{
+        const response = await axios.get(`http://localhost:3030/api/posts/${search}`)
+        const data = response.data
+        navigate('/postsearch', {state: {postData: data}})
+        console.log(response);
+      }catch(err){
+        setShow(true)
+      }
+    
     }
     
 }
@@ -51,10 +64,19 @@ const navigate = useNavigate()
         aria-label="Text input with dropdown button" 
         disabled={dropdown ? false : true}
         placeholder={dropdown ? `Buscar ${dropdown}` : "Seleccione un valor" } 
-        onChange={(e) => setSearch(e.target.value)}/>
+        onChange={(e) => setSearch(e.target.value.toLocaleLowerCase(e))}/>
         <Button type='submit' variant="success" onClick={() => {handleSearch()}}>Buscar
           </Button>
       </InputGroup>
+      { show ?
+       <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+        <Alert.Heading>Ups!</Alert.Heading>
+        <p>
+          No se encontró lo que buscabas.
+        </p>
+      </Alert> : null
+      }
+     
 
 
  </div>
