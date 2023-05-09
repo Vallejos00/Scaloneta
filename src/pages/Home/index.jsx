@@ -39,6 +39,7 @@ const Home = () => {
         <input type="password" name='password' value={password} onChange={(e)=> setPassword(e.target.value)}/>
     </label>
         <button type='submit'>Ingresar</button>
+        <button onClick={()=>navigate('/register')}>Registrarse</button>
     {err ? <p>{err}</p> : null}
  </form> 
  

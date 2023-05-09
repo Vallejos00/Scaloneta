@@ -8,16 +8,16 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 const MiPerfil = () => {
-    const [token, setToken] = useState(JSON.parse(localStorage.getItem('user')))
-    const [user, setUser] = useState()    
-    const [error, setError] = useState()
-    const [show, setShow] = useState(false);
-    const [showDelete, setShowDelete] = useState(false)
-    const [posts, setPosts] = useState([])
-    const [msg, setMsg] = useState('')
-    const[id, setId] = useState('')
-    const [refresh, setRefresh] = useState(0)
-
+  const [user, setUser] = useState()    
+  const [error, setError] = useState()
+  const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false)
+  const [posts, setPosts] = useState([])
+  const [msg, setMsg] = useState('')
+  const[id, setId] = useState('')
+  const [refresh, setRefresh] = useState(0)
+  const token = JSON.parse(localStorage.getItem('user'))
+  
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const closeDelete = () => setShowDelete(false)
@@ -65,8 +65,7 @@ const MiPerfil = () => {
                 console.log(data);
                 }catch(err){
                     if(err.response.data.status == 404)
-                 console.log(err.response.data.status);
-                 setMsg('No hay posteos')
+                    setMsg('No hay posteos')
                 }
             }
                getUser()  
@@ -103,7 +102,7 @@ const MiPerfil = () => {
         <img src="/images/icons8-back-24.png" alt="" />
         </button>
     <section className='user-section'>
-     <img className='profilepic' src={user[0].profilePic} alt="profilePic" onClick={handleShow}/>
+     <img className='profilepic' src={user[0].profilePic ? user[0].profilePic : "/images/usuario-sin-foto.jpeg"} alt="profilePic" onClick={handleShow}/>
    <h1 className='username'>{user[0].userName}</h1>
     <p className='email'>{user[0].email}</p>
 <Modal
@@ -112,7 +111,7 @@ const MiPerfil = () => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <img className='modal-profilepic' src={user[0].profilePic} alt="profilePic" onClick={handleShow}/>
+      <img className='modal-profilepic' src={user[0].profilePic ? user[0].profilePic : "/images/usuario-sin-foto.jpeg"} alt="profilePic" onClick={handleShow}/>
 </Modal>   
     </section>
 

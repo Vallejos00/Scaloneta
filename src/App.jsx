@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Header } from './Components'
-import { Data, Home, Perfil, MiPerfil, NotFound, PostSearch } from './pages'
+import { Data, Home, Perfil, MiPerfil, NotFound, PostSearch, Register, ProfilePic} from './pages'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -20,10 +20,13 @@ function App() {
         <Route path='/miperfil' element={<MiPerfil/>}/>
         <Route path='/404notFoundPage' element={<NotFound/>}/>
         <Route path='/postsearch' element={<PostSearch/>}/> 
+        <Route path='/register' element={<Register/>}/>
+        <Route path='/profilePic' element={<ProfilePic/>}/>
+
       </Routes>
       </BrowserRouter>
 
-
+      
       
     </div>
   )

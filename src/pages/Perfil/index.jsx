@@ -9,6 +9,7 @@ const Perfil = () => {
 
 const [msg, setMsg] = useState('')    
 const { state } = useLocation()
+console.log(state);
 const [show, setShow] = useState(false);
 const [posts, setPosts] = useState([])
 const navigate = useNavigate()
@@ -16,12 +17,19 @@ const navigate = useNavigate()
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 
+
+
 useEffect(()=>{
-    if (state == null) {
+       if(state == null){
         navigate('/404notFoundPage')
-    }else{
-       const getPosts = async() => {
-       try{
+       } else {
+        const user = JSON.parse(localStorage.getItem('user'))
+        if(state.userData[0].id == user.id){
+        console.log(user);
+        navigate('/miPerfil')
+        }
+        const getPosts = async() => {
+        try{
         const response = await axios.get(`http://localhost:3030/api/posts/profile/${state.userData[0].id}`)
         const data = response.data
         data.sort( (a, b) => {
@@ -30,6 +38,7 @@ useEffect(()=>{
         }if(a.createdAt < b.createdAt){
          return 1
      }
+     
     })
     setPosts(data)
        } catch(err){
@@ -40,13 +49,14 @@ useEffect(()=>{
        
     }
     getPosts()
-    }
+}
  
 }, [])
 
 
  return(
  <div>  
+    {!state ? <p>Cargando...</p> :
     <div className='p-profile-container'>
     <button className='p-back-btn'
     onClick={() => {navigate('/inicio')}}>
@@ -54,7 +64,7 @@ useEffect(()=>{
         </button>
 
         <section className='p-user-section'>
-     <img className='p-profilepic' src={state.userData[0].profilePic} alt="profilePic" onClick={handleShow}/>
+     <img className='p-profilepic' src={state.userData[0].profilePic ? state.userData[0].profilePic : "/images/usuario-sin-foto.jpeg"} alt="profilePic" onClick={handleShow}/>
    <h1 className='p-username'>{state.userData[0].userName}</h1>
     <p className='p-email'>{state.userData[0].email}</p>
 <Modal
@@ -63,7 +73,7 @@ useEffect(()=>{
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <img className='p-modal-profilepic' src={state.userData[0].profilePic} alt="profilePic" onClick={handleShow}/>
+      <img className='p-modal-profilepic' src={state.userData[0].profilePic ? state.userData[0].profilePic : "/images/usuario-sin-foto.jpeg"} alt="profilePic" onClick={handleShow}/>
 </Modal>   
     </section>
 
@@ -83,6 +93,8 @@ useEffect(()=>{
 
 
     </div>
+    }
+    
 
 
 

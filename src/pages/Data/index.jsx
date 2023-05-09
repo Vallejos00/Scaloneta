@@ -15,6 +15,7 @@ const Data = (props) => {
 
   const [posts, setPosts] = useState([])
   const [show, setShow] = useState(false);
+  const [logOutModal, setLogOutModal] = useState(false)
   const [showAside, setShowAside] = useState(false);
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState('')
@@ -22,7 +23,7 @@ const Data = (props) => {
   const [refresh, setRefresh] = useState(0)
   const navigate = useNavigate()
 
- const handleClose = () =>  {setShow(false), setAlert(false), setShowAside(false)}
+ const handleClose = () =>  {setShow(false), setAlert(false), setShowAside(false), setLogOutModal(false)}
  const handleShow = () =>   setShow(true)
  const handleShowAside = () => setShowAside(true)
  const handleRefresh = () => {
@@ -56,12 +57,6 @@ const Data = (props) => {
   if(!user)setAlert(true)
   
 }, [refresh])
-
- 
-
-
-
-
 
 
 
@@ -100,14 +95,16 @@ const Data = (props) => {
           <Button 
             className='list-item' 
             variant="outline-secondary"
-            onClick={()=>{navigate('/miperfil', {state: {userData: user}})}}>     
+            onClick={()=>{navigate('/miperfil')}}>     
             Mi Perfil</Button>
             <Button 
             className='list-item' 
             variant="outline-danger"
-            onClick={logout}>
+            onClick={()=>setLogOutModal(true)}>
             Cerrar sesión</Button>
         </div>
+
+        
       
          : null
       }
@@ -116,7 +113,20 @@ const Data = (props) => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      
+      <Modal show={logOutModal} onHide={handleClose}>
+      <Modal.Header closeButton>
+          <Modal.Title>Cerrar sesión</Modal.Title>
+        </Modal.Header>
+      <Modal.Body>¿Seguro que querés cerrar sesión?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button variant="outline-danger" onClick={logout}>
+            Cerrar sesión
+          </Button>
+        </Modal.Footer>
+      </Modal> 
     <Button variant="success" onClick={user ? handleShow : logout} >{user ? "Publicar" : "iniciar sesión"}</Button>
   </div>
      
@@ -150,7 +160,7 @@ const Data = (props) => {
      {posts.map(post => 
        <div key={post._id} className='post-container'> 
         <div className='img-container'>
-       <img className='post-profilePic' src= {post.user.profilePic} alt="profilePic"/>   
+       <img className='post-profilePic' src= {post.user.profilePic ? post.user.profilePic : "/images/usuario-sin-foto.jpeg"} alt="profilePic"/>   
         </div>
        <div  className='user-body-container'>
         <h1 className='post-userName'>{post.user.userName}</h1>
