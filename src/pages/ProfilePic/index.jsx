@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReactCrop from 'react-image-crop';
 import axios from 'axios';
-import 'react-image-crop/dist/ReactCrop.css';
 
 const ProfilePic = () => {
     
@@ -13,22 +11,24 @@ const ProfilePic = () => {
     console.log(token);
 
     const handleForm = () =>{
-        const config = {
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-        axios.put(`http://localhost:3030/api/users/myprofile/pic/${user.id}`, {profilePic: profilePic}, config)
-        .then(res=> {
-            console.log(res)
-            console.log(profilePic)
-        })
-        .catch(res=>{console.log(res)
-        
-        console.log(config)}
-        )
+      
+      const formData = new FormData();
+formData.append('profilePic', profilePic);
 
+const config = {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+};
+
+axios.put(`http://localhost:3030/api/users/myprofile/pic/${user.id}`, formData, config)
+  .then(res => {
+    console.log(res);
+    console.log(profilePic);
+  })
+  .catch(error => {
+    console.log(error);
+  });
     }
  
     
@@ -42,8 +42,9 @@ const ProfilePic = () => {
     e.preventDefault()
     console.log(profilePic);
     handleForm(e)
-  }}>
-<input type="file" accept='image/*' onChange={(e)=>{setProfilePic(e.target.files[0])}}/>
+  }}
+  encType='multipart/form-data'>
+<input type="file" accept='image/*' name='profilePic' onChange={(e)=>{setProfilePic(e.target.files[0])}}/>
 <button type="submit">Enviar</button>
   </form>
 
