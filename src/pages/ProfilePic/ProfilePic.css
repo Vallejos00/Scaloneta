@@ -1,0 +1,22 @@
+.original-img-container{
+
+    height: auto;
+  }
+  
+  .original-img-container img {
+  max-width: 500px;
+  max-height: 400px;
+  }
+  
+  .new-img-container{
+    width: 200px;
+    height: 200px;
+  margin: 10px;
+  position: relative;
+  }
+  
+  .new-img-container img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
